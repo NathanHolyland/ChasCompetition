@@ -1,4 +1,5 @@
 import numpy as np
+import pygame
 from math import *
 
 patterns = {
@@ -17,25 +18,29 @@ class Tetronimo:
         self.tiles = patterns[type][0]
         self.color = patterns[type][1]
 
-    def move(self, vec):
+    def move(self, vec, grid):
         self.position[0] += vec[0]
         self.position[1] += vec[1]
+        if not grid.validatePosition(self):
+            self.position[0] -= vec[0]
+            self.position[1] -= vec[1]
+
     
-    def getTiles(self):
-        return self.tiles
-    
-    def rotate(self, direction):
+    def rotate(self, direction, grid):
         matrix = np.array([[0,-direction],[direction,0]])
         new_tiles = []
+
+        #apply 2d rotation matrix to every point (works because they are all relative)
         for i in range(len(self.tiles)):
             vec = np.asarray(self.tiles[i])
             new_vec = np.matmul(matrix, vec)
             new_tiles.append(new_vec.tolist())
         self.tiles = new_tiles
-            
-i_shape = Tetronimo("i", [0,0])
-print(i_shape.tiles)
-i_shape.rotate(-1)
-print(i_shape.tiles)
+
+    def render(self, surface, scale):
+        pos = self.position
+        for tile in self.tiles:
+            pygame.draw.rect(surface, self.color, [(pos[0]+tile[0])*scale[0], (pos[1]+tile[1])*scale[1], scale[0], scale[1]], 0)
+            pygame.draw.rect(surface, (0, 0, 0), [(pos[0]+tile[0])*scale[0], (pos[1]+tile[1])*scale[1], scale[0], scale[1]], 1)
 
 
