@@ -18,6 +18,11 @@ class Tetronimo:
         self.tiles = patterns[type][0]
         self.color = patterns[type][1]
 
+        self.activeTimer = False
+        self.timerLimit = 1
+        self.timer = 0
+
+
     def move(self, vec, grid):
         self.position[0] += vec[0]
         self.position[1] += vec[1]
@@ -35,7 +40,12 @@ class Tetronimo:
             vec = np.asarray(self.tiles[i])
             new_vec = np.matmul(matrix, vec)
             new_tiles.append(new_vec.tolist())
+        
+        previous = self.tiles.copy()
         self.tiles = new_tiles
+
+        if not grid.validatePosition(self):
+            self.tiles = previous
 
     def render(self, surface, scale):
         pos = self.position
