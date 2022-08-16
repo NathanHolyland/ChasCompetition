@@ -1,4 +1,3 @@
-from operator import invert
 from Tetronimo import Tetronimo
 import pygame
 
