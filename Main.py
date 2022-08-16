@@ -13,7 +13,6 @@ def randomPiece():
         pos = [5.5, 1.5]
     return Tetronimo(options[i], pos)
 
-
 # runtime variables
 resolution = [500,500]
 screen = pygame.display.set_mode(resolution)
@@ -35,7 +34,7 @@ while running:
     pygame.display.flip()
 
     # events
-    if timer >= 1:
+    if timer >= 0.5:
         piece.move([0,1], grid)
         timer = 0
     
@@ -52,26 +51,16 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
-            pieceMoved = False
             if event.key == pygame.K_d:
                 piece.rotate(1, grid)
-                pieceMoved = True
             if event.key == pygame.K_a:
                 piece.rotate(-1, grid)
-                pieceMoved = True
             if event.key == pygame.K_LEFT:
                 piece.move([-1, 0], grid)
-                pieceMoved = True
             if event.key == pygame.K_RIGHT:
                 piece.move([1, 0], grid)
-                pieceMoved = True
             if event.key == pygame.K_DOWN:
                 piece.move([0,1], grid)
-                pieceMoved = True
-            
-            if pieceMoved and piece.activeTimer:
-                piece.timer = 0
-                piece.timerLimit -= 0.025
 
     time_end = time.time()
     time_elapsed = time_end-time_start

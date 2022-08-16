@@ -26,7 +26,6 @@ class Grid:
             self.grid.append(row)
     
     def clearRow(self, row):
-        print(row)
         #generate empty row
         empty_row = []
         for i in range(self.resolution[0]):
@@ -61,29 +60,29 @@ class Grid:
                     full = False
             if full:
                 clears.append(i)
-            print(i)
-            print(full)
         return clears
 
-    def validatePosition(self, tetronimo):
+    def validatePosition(self, tetronimo, input_vec):
         for i in tetronimo.tiles:
             x = int(tetronimo.position[0]+i[0] - self.pos[0])
             y = int(tetronimo.position[1]+i[1] - self.pos[0])
             point = [x,y]
-            print(point)
             
             #if any points are out of the bounds !!not valid!!
             if point[0] < 0 or point[0] >= self.resolution[0]:
-                tetronimo.activeTimer = True
+                if input_vec == [0, 1]:
+                    tetronimo.activeTimer = True
                 return False
             
             elif point[1] < 0 or point[1] >= self.resolution[1]:
-                tetronimo.activeTimer = True
+                if input_vec == [0, 1]:
+                    tetronimo.activeTimer = True
                 return False
             
             #if any tiles already exist in that positon !!not valid!!
             elif self.grid[x][y] != self.default_color:
-                tetronimo.activeTimer = True
+                if input_vec == [0, 1]:
+                    tetronimo.activeTimer = True
                 return False
         tetronimo.activeTimer = False
         return True

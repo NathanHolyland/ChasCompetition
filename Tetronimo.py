@@ -19,16 +19,19 @@ class Tetronimo:
         self.color = patterns[type][1]
 
         self.activeTimer = False
-        self.timerLimit = 1
+        self.timerLimit = 0.25
         self.timer = 0
 
 
     def move(self, vec, grid):
         self.position[0] += vec[0]
         self.position[1] += vec[1]
-        if not grid.validatePosition(self):
+        if not grid.validatePosition(self, vec):
             self.position[0] -= vec[0]
             self.position[1] -= vec[1]
+        elif self.activeTimer:
+            self.timer = 0
+            self.timerLimit -= 0.025
 
     
     def rotate(self, direction, grid):
@@ -44,7 +47,7 @@ class Tetronimo:
         previous = self.tiles.copy()
         self.tiles = new_tiles
 
-        if not grid.validatePosition(self):
+        if not grid.validatePosition(self, [0,0]):
             self.tiles = previous
 
     def render(self, surface, scale):
