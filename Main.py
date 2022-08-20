@@ -2,6 +2,7 @@ import time
 from Tetronimo import Tetronimo
 from Grid import *
 from random import *
+from UI import *
 
 ##game is designed for a square window
 
@@ -18,10 +19,13 @@ resolution = [500,500]
 screen = pygame.display.set_mode(resolution)
 piece = randomPiece()
 timer = 0
-scale_vec = [1/20*resolution[0],1/20*resolution[1]]
+scale_vec = [1/19*resolution[0],1/19*resolution[1]]
 grid = Grid([1,1], [10,15], (190,220,240))
 bgcolor = (200, 230, 255)
 running = True
+
+#UI elements
+scoreboard = 
 
 # mainloop
 while running:
