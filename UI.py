@@ -1,5 +1,4 @@
 import pygame
-from PIL import Image
 
 class Label:
     #shared properties for any Label
