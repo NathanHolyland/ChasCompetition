@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 resolution = [500,500]
 screen = pygame.display.set_mode(resolution)
-bgcolor = (200,230,255)
+
 
 running=True
 
@@ -38,55 +38,31 @@ class Button:
                 #play game
             #elif self.function=='o':
                 #options menu
-        
 
-tImage=pygame.image.load('Tetris image.png')
+class Menu:
+    def __init__(self):
+        self.active = True
+
+        self.bgcolor = (200,230,255)
+        self.tImage=pygame.image.load('Assets/Images/Tetris image.png')
        
-playButton=Button(100,275,300,50,'Play Game',(200,200,220),'calibri',25,'p')
-optionsButton=Button(100,350,300,50,'Options',(200,200,220),'calibri',25,'o')
-exitButton=Button(175,425,150,50,'Exit',(200,200,220),'calibri',25,'e')
+        playButton=Button(100,275,300,50,'Play Game',(200,200,220),'calibri',25,'p')
+        optionsButton=Button(100,350,300,50,'Options',(200,200,220),'calibri',25,'o')
+        exitButton=Button(175,425,150,50,'Exit',(200,200,220),'calibri',25,'e')
 
-buttonList=[]
-buttonList.append(playButton)
-buttonList.append(optionsButton)
-buttonList.append(exitButton)
+        self.buttonList=[playButton,optionsButton,exitButton]
 
+    def menuMusic(self):
+        pygame.mixer.music.load("Assets/Music/Menu music.wav")
+        pygame.mixer.music.play(-1)
 
-def menuMusic():
-    pygame.mixer.music.load("Menu music.wav")
-    pygame.mixer.music.play(-1)
-    
+    def render(self, screen):
+        screen.fill(self.bgcolor)
+        screen.blit(self.tImage,(178,50))
+        for button in self.buttonList:
+            button.render()
+        pygame.display.flip()
 
-def Menu():
-    screen.fill(bgcolor)
-    screen.blit(tImage,(178,50))
-    playButton.render(screen)
-    optionsButton.render(screen)
-    exitButton.render(screen)
-    pygame.display.flip()
-    menuMusic()
-
-    mouse = pygame.mouse.get_pos()
-    
-    for event in pygame.event.get():
-        if event.type==pygame.MOUSEBUTTONDOWN:
-            for i in buttonList:
-                if i.isSelected(mouse):
-                    i.selected=True
-
-
-
-while running:
-    Menu()
-    mouse = pygame.mouse.get_pos()
-
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type==pygame.MOUSEBUTTONDOWN:
-            for i in buttonList:
-                if i.isSelected(mouse):
-                    i.selected=True
-            
-pygame.quit()
+    def close(self):
+        self.active = False
+        pygame.mixer.music.stop()
