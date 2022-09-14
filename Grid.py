@@ -41,7 +41,6 @@ class Grid:
 
         self.grid = invertList(rotatedGrid)
 
-    
     def clearCheck(self):
         clears = []
 

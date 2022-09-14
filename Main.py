@@ -82,7 +82,6 @@ while running:
         flags["lineClear"] = False
         music_tracks.playSound(Line_cleared, 0)
 
-
     # input handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

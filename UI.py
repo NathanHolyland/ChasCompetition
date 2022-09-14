@@ -2,7 +2,7 @@ import pygame
 
 class Label:
     #shared properties for any Label
-    def __init__(self, bgColor, texture, rect, visible):
+    def __init__(self, bgColor, texture, rect, visible=True):
         self.texture = texture
         self.bgColor = bgColor
         self.rect = rect
@@ -13,12 +13,17 @@ class Label:
             pygame.draw.rect(surface, self.bgColor, self.rect, 0)
             surface.blit(self.texture, (self.rect[0], self.rect[1]))
 
-class ImageLabel(Label):
-    def __init__(self, rect, visible, image):
-        self.texture = pygame.image()
+class TextLabel(Label):
+    def __init__(self, bgColor, font, text, text_color, rect, visible=True):
+        self.font = font
+        texture = font.render(text, True, text_color)
+        super().__init__(bgColor, texture, rect, visible)
+    
+    def changeText(self, text_color, text):
+        self.texture = self.font.render(text, True, text_color)
 
 class Button(Label):
-    def __init__(self, bgColor, texture, rect, visible, toggleable):
+    def __init__(self, bgColor, texture, rect, visible=True, toggleable=False):
         super().__init__(bgColor, texture, rect, visible)
         self.toggleable = toggleable
         self.state = False
@@ -35,7 +40,7 @@ class Button(Label):
         return self.state
 
 class TextButton(Button):
-    def __init__(self, rect, bgColor, text_color, text, font, visible, toggleable):
+    def __init__(self, rect, bgColor, text_color, text, font, visible=True, toggleable=False):
         self.font = font
         texture = font.render(text, True, text_color)
         super().__init__(bgColor, texture, rect, visible, toggleable)

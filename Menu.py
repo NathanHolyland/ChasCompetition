@@ -2,11 +2,6 @@ import pygame
 from UI import *
 
 pygame.init()
-resolution = [500,500]
-screen = pygame.display.set_mode(resolution)
-
-
-running=True
 
 class Menu:
     def __init__(self):

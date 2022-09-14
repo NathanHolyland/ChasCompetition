@@ -8,7 +8,7 @@ from UI import *
 
 def randomPiece():
     options = ["i","l","j","o","s","z","t"]
-    i = randrange(0, 6)
+    i = randrange(0, 7)
     pos = [5, 2]
     if options[i] == "i" or options[i] == "o":
         pos = [5.5, 1.5]
@@ -26,8 +26,15 @@ class GameWindow:
         self.bgcolor = (200, 230, 255)
         self.running = True
 
+        self.score = 0
+        self.scoreboard = TextLabel((200,200,220), pygame.font.SysFont('calibri', 25), str(self.score), (255, 0, 0), [300, 50, 150, 25], True)
+
     def start(self):
         self.active = True
+
+    def setScore(self, score):
+        self.score = score
+        self.scoreboard.changeText((255, 0, 0), str(score))
 
     def update(self, dt):
         if not self.active:
@@ -50,6 +57,9 @@ class GameWindow:
             self.flags["lineClear"] = True
         elif len(clears) == 4:
             self.flags["tetris"] = True
+        if len(clears) > 0:
+            scores = [100, 300, 500, 800]
+            self.setScore(self.score+scores[len(clears)-1])
         
         self.timer+=dt
         if self.activePiece.activeTimer:
@@ -82,3 +92,4 @@ class GameWindow:
         screen.fill(self.bgcolor)
         self.grid.render(screen, self.scale_vec)
         self.activePiece.render(screen, self.scale_vec)
+        self.scoreboard.render(screen)
