@@ -15,7 +15,6 @@ patterns = {
 class Tetronimo:
     def __init__(self, type, position):
         self.position = position
-        self.type = type
         self.tiles = patterns[type][0]
         self.color = patterns[type][1]
 
