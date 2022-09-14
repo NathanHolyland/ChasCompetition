@@ -3,6 +3,12 @@ import pygame
 from random import *
 from GameWindow import *
 from Menu import *
+from dataclasses import dataclass
+
+@dataclass
+class KeyState:
+    state: bool
+    should_reset: bool
 
 ##game is designed for a square window
 
@@ -20,13 +26,13 @@ running = True
 game = GameWindow(resolution)
 menu = Menu()
 
-# inputs Format [active, singlecall?]
+# inputs Format .active, .should_reset
 keys = {
-    pygame.K_LEFT: [False, False],
-    pygame.K_RIGHT: [False, False],
-    pygame.K_DOWN: [False, False],
-    pygame.K_d: [False, True],
-    pygame.K_a: [False, True]
+    pygame.K_LEFT: KeyState(False, False),
+    pygame.K_RIGHT: KeyState(False, False),
+    pygame.K_DOWN: KeyState(False, False),
+    pygame.K_d: KeyState(False, True),
+    pygame.K_a: KeyState(False, True)
 }
 
 # mainloop
@@ -50,11 +56,11 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key in keys:
-                keys[event.key][0] = True
+                keys[event.key].state = True
 
         elif event.type == pygame.KEYUP:
             if event.key in keys:
-                keys[event.key][0] = False
+                keys[event.key].state = False
         
         if event.type == pygame.MOUSEBUTTONDOWN:
             buttons = menu.checkButtons(pygame.mouse.get_pos())
