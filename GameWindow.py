@@ -95,7 +95,7 @@ class GameWindow:
             pygame.K_d: ["rotate", 1],
             pygame.K_a: ["rotate", -1],
             pygame.K_SPACE: ["drop"],
-            pygame.K_e: ["hold"]
+            pygame.K_RETURN: ["hold"]
         }
 
         for key in keys:

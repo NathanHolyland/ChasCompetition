@@ -52,7 +52,7 @@ keys = {
     pygame.K_SPACE: KeyState(False, True),
     pygame.K_d: KeyState(False, True),
     pygame.K_a: KeyState(False, True),
-    pygame.K_e: KeyState(False, True)
+    pygame.K_RETURN: KeyState(False, True)
 }
 
 # mainloop
