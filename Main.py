@@ -101,6 +101,8 @@ while running:
                 menu.close()
                 music_tracks.stopSound(Menu_music)
                 music_tracks.playSound(Gameplay_music, -1, 0.2)
+                while event.type != pygame.MOUSEBUTTONDOWN:
+                    menu.displayInstructions(screen)
                 game.start()
 
     clock.tick(FPS)
