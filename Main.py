@@ -109,12 +109,8 @@ while running:
                 menu.close()
                 music_tracks.stopSound(Menu_music)
                 music_tracks.playSound(Gameplay_music, -1, 0.2)
-                while event.type != pygame.MOUSEBUTTONDOWN:
-                    menu.displayInstructions(screen)
                 game.start()
-            if buttons["exit"]:
-                running=False
-                
+
     clock.tick(FPS)
     time_end = time.perf_counter()
     time_elapsed = time_end-time_start
