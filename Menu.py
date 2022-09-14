@@ -2,11 +2,6 @@ import pygame
 from UI import *
 
 pygame.init()
-resolution = [500,500]
-screen = pygame.display.set_mode(resolution)
-
-
-running=True
 
 class Menu:
     def __init__(self):
@@ -37,10 +32,6 @@ class Menu:
                 buttons[name] = True
         
         return buttons
-
-    def menuMusic(self):
-        pygame.mixer.music.load("Assets/Music/Menu_music.wav")
-        pygame.mixer.music.play(-1)
 
     def render(self, screen):
         if not self.active:

@@ -11,10 +11,11 @@ def invertList(list):
     return inverted
 
 class Grid:
-    def __init__(self, position, resolution, default_color):
+    def __init__(self, position, resolution, default_color, flags):
         self.pos = position
         self.resolution = resolution
         self.default_color = default_color
+        self.flags = flags
         self.grid=[]
 
         #generate empty grid
@@ -40,7 +41,6 @@ class Grid:
 
         self.grid = invertList(rotatedGrid)
 
-    
     def clearCheck(self):
         clears = []
 
@@ -69,6 +69,7 @@ class Grid:
             
             #if any points are out of the bounds !!not valid!!
             if point[0] < 0 or point[0] >= self.resolution[0]:
+                self.flags["wallHit"] = True
                 if input_vec == [0, 1]:
                     tetronimo.activeTimer = True
                 return False

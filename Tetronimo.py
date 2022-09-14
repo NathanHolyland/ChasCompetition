@@ -22,7 +22,6 @@ class Tetronimo:
         self.timerLimit = 0.25
         self.timer = 0
 
-
     def move(self, vec, grid):
         self.position[0] += vec[0]
         self.position[1] += vec[1]
@@ -33,7 +32,6 @@ class Tetronimo:
             self.timer = 0
             self.timerLimit -= 0.025
 
-    
     def rotate(self, direction, grid):
         matrix = np.array([[0,-direction],[direction,0]])
         new_tiles = []
