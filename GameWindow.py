@@ -15,13 +15,14 @@ def randomPiece():
     return Tetronimo(options[i], pos)
 
 class GameWindow:
-    def __init__(self, resolution):
+    def __init__(self, resolution, flags):
         self.active = False
+        self.flags = flags
 
         self.activePiece = randomPiece()
         self.timer = 0
         self.scale_vec = [1/19*resolution[0],1/19*resolution[1]]
-        self.grid = Grid([1,1], [10,15], (190,220,240))
+        self.grid = Grid([1,1], [10,15], (190,220,240), flags)
         self.bgcolor = (200, 230, 255)
         self.running = True
 
@@ -39,10 +40,16 @@ class GameWindow:
         if (self.activePiece.timer >= self.activePiece.timerLimit) or self.activePiece.timerLimit <= 0:
             self.grid.commitTetronimo(self.activePiece, [1,1])
             self.activePiece = randomPiece()
+            if not self.grid.validatePosition(self.activePiece, [0, 0]):
+                self.flags["gameOver"] = True
 
         clears = self.grid.clearCheck()
         for line in clears:
             self.grid.clearRow(line)
+        if 4 > len(clears) > 0:
+            self.flags["lineClear"] = True
+        elif len(clears) == 4:
+            self.flags["tetris"] = True
         
         self.timer+=dt
         if self.activePiece.activeTimer:
@@ -72,7 +79,6 @@ class GameWindow:
     def render(self, screen):
         if not self.active:
             return
-
         screen.fill(self.bgcolor)
         self.grid.render(screen, self.scale_vec)
         self.activePiece.render(screen, self.scale_vec)

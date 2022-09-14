@@ -38,10 +38,6 @@ class Menu:
         
         return buttons
 
-    def menuMusic(self):
-        pygame.mixer.music.load("Assets/Music/Menu_music.wav")
-        pygame.mixer.music.play(-1)
-
     def render(self, screen):
         if not self.active:
             return
