@@ -61,24 +61,6 @@ class Grid:
                 clears.append(i)
         return clears
 
-    def validateMove(self, tetronimo, input_vec):
-        for i in tetronimo.tiles:
-            x = int(tetronimo.position[0]+i[0]+input_vec[0] - self.pos[0])
-            y = int(tetronimo.position[1]+i[1]+input_vec[1] - self.pos[0])
-            point = [x,y]
-            
-            #if any points are out of the bounds !!not valid!!
-            if point[0] < 0 or point[0] >= self.resolution[0]:
-                return False
-            
-            elif point[1] < 0 or point[1] >= self.resolution[1]:
-                return False
-            
-            #if any tiles already exist in that positon !!not valid!!
-            elif self.grid[x][y] != self.default_color:
-                return False
-        return True
-
     def validatePosition(self, tetronimo, input_vec):
         for i in tetronimo.tiles:
             x = int(tetronimo.position[0]+i[0] - self.pos[0])

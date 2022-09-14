@@ -46,3 +46,6 @@ class Menu:
     def close(self):
         self.active = False
         pygame.mixer.music.stop()
+    
+    def displayInstructions(self,screen):
+        screen.blit(self.instructions,(0,0))
