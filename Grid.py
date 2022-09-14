@@ -66,8 +66,6 @@ class Grid:
             x = int(tetronimo.position[0]+i[0]+input_vec[0] - self.pos[0])
             y = int(tetronimo.position[1]+i[1]+input_vec[1] - self.pos[0])
             point = [x,y]
-
-            print(point, self.resolution)
             
             #if any points are out of the bounds !!not valid!!
             if point[0] < 0 or point[0] >= self.resolution[0]:
