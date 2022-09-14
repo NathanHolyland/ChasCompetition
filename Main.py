@@ -106,10 +106,15 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             buttons = menu.checkButtons(pygame.mouse.get_pos())
             if buttons["play"]:
+                menu.displayInstructions()
+                print("play")
+            if buttons["instructions"]:
                 menu.close()
                 music_tracks.stopSound(Menu_music)
                 music_tracks.playSound(Gameplay_music, -1, 0.2)
                 game.start()
+            if buttons["exit"]:
+                running=False
 
     clock.tick(FPS)
     time_end = time.perf_counter()

@@ -13,18 +13,21 @@ class Menu:
         playButton=TextButton([100,275,300,50], (200,200,220), (55, 55, 55),'Play Game', pygame.font.SysFont('calibri', 25), True, False)
         optionsButton=TextButton([100,350,300,50],(200,200,220), (55, 55, 55), 'Options', pygame.font.SysFont('calibri', 25), True, False)
         exitButton=TextButton([175,425,150,50],(200,200,220), (55, 55, 55), 'Exit', pygame.font.SysFont('calibri', 25), True, False)
+        iButton=Button((0,0,0), pygame.image.load('Assets/Images/instructionsScreen.jpg'), [0, 0, 500, 500], False, False)
 
         self.buttonDict={
             "play": playButton,
             "options": optionsButton,
-            "exit": exitButton
+            "exit": exitButton,
+            "instructions": iButton
         }
     
     def checkButtons(self, mousePos):
         buttons = {
             "play": False,
             "options": False,
-            "exit": False
+            "exit": False,
+            "instructions": False
         }
 
         for name in self.buttonDict:
@@ -46,3 +49,6 @@ class Menu:
     def close(self):
         self.active = False
         pygame.mixer.music.stop()
+    
+    def displayInstructions(self):
+        self.buttonDict["instructions"].visible = True
