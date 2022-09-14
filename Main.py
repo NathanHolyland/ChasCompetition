@@ -39,6 +39,7 @@ Game_over = pygame.mixer.Sound("Assets/Music/Game_over.wav")
 Wall_hit = pygame.mixer.Sound("Assets/Music/Wall_hit.wav")
 Line_cleared = pygame.mixer.Sound("Assets/Music/Line_cleared.mp3")
 hard_drop = pygame.mixer.Sound("Assets/Music/Hard_drop.wav")
+tetris_sfx = pygame.mixer.Sound("Assets/Music/Tetris_cleared.wav")
 
 #UI elements
 game = GameWindow(resolution, flags)
@@ -85,6 +86,10 @@ while running:
     if flags["lineClear"]:
         flags["lineClear"] = False
         music_tracks.playSound(Line_cleared, 0)
+    
+    if flags["tetris"]:
+        flags["tetris"] = False
+        music_tracks.playSound(tetris_sfx, 0)
 
     if flags["hardDrop"]:
         flags["hardDrop"] = False
