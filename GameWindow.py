@@ -36,6 +36,11 @@ class GameWindow:
         self.score = score
         self.scoreboard.changeText((255, 0, 0), str(score))
 
+    def newPiece(self):
+        self.activePiece = randomPiece()
+        if not self.grid.validatePosition(self.activePiece, [0, 0]):
+            self.flags["gameOver"] = True
+
     def update(self, dt):
         if not self.active:
             return
@@ -46,9 +51,7 @@ class GameWindow:
     
         if (self.activePiece.timer >= self.activePiece.timerLimit) or self.activePiece.timerLimit <= 0:
             self.grid.commitTetronimo(self.activePiece, [1,1])
-            self.activePiece = randomPiece()
-            if not self.grid.validatePosition(self.activePiece, [0, 0]):
-                self.flags["gameOver"] = True
+            self.newPiece()
 
         clears = self.grid.clearCheck()
         for line in clears:
@@ -74,7 +77,8 @@ class GameWindow:
             pygame.K_RIGHT: ["move", [1, 0]],
             pygame.K_DOWN: ["move", [0, 1]],
             pygame.K_d: ["rotate", 1],
-            pygame.K_a: ["rotate", -1]
+            pygame.K_a: ["rotate", -1],
+            pygame.K_SPACE: ["drop"]
         }
 
         for key in keys:
@@ -83,6 +87,15 @@ class GameWindow:
                     self.activePiece.move(bound_actions[key][1], self.grid),
                 elif bound_actions[key][0] == "rotate":
                     self.activePiece.rotate(bound_actions[key][1], self.grid)
+                elif bound_actions[key][0] == "drop":
+                    valid_move = [0,0]
+                    for dy in range(20):
+                        if self.grid.validateMove(self.activePiece,[0, dy]):
+                            valid_move = [0, dy]
+                    self.activePiece.move(valid_move, self.grid)
+                    self.grid.commitTetronimo(self.activePiece, [1, 1])
+                    self.flags["hardDrop"] = True
+                    self.newPiece()
                 if keys[key].should_reset:
                     keys[key].state = False
     
