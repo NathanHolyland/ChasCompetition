@@ -1,4 +1,3 @@
-import time
 import pygame
 from Tetronimo import Tetronimo
 from Grid import *
@@ -62,13 +61,13 @@ class GameWindow:
         }
 
         for key in keys:
-            if keys[key][0]:
+            if keys[key].state:
                 if bound_actions[key][0] == "move":
                     self.activePiece.move(bound_actions[key][1], self.grid),
                 elif bound_actions[key][0] == "rotate":
                     self.activePiece.rotate(bound_actions[key][1], self.grid)
-                if keys[key][1]:
-                    keys[key][0] = False
+                if keys[key].should_reset:
+                    keys[key].state = False
     
     def render(self, screen):
         if not self.active:
