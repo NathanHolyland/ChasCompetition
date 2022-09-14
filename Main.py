@@ -21,7 +21,8 @@ flags = {
     "gameOver": False,
     "lineClear": False,
     "tetris": False,
-    "wallHit": False
+    "wallHit": False,
+    "hardDrop": False
 }
 
 time_elapsed = 0
@@ -37,6 +38,7 @@ Gameplay_music = pygame.mixer.Sound("Assets/Music/Gameplay_music.wav")
 Game_over = pygame.mixer.Sound("Assets/Music/Game_over.wav")
 Wall_hit = pygame.mixer.Sound("Assets/Music/Wall_hit.wav")
 Line_cleared = pygame.mixer.Sound("Assets/Music/Line_cleared.mp3")
+hard_drop = pygame.mixer.Sound("Assets/Music/Hard_drop.wav")
 
 #UI elements
 game = GameWindow(resolution, flags)
@@ -47,8 +49,10 @@ keys = {
     pygame.K_LEFT: KeyState(False, False),
     pygame.K_RIGHT: KeyState(False, False),
     pygame.K_DOWN: KeyState(False, False),
+    pygame.K_SPACE: KeyState(False, True),
     pygame.K_d: KeyState(False, True),
-    pygame.K_a: KeyState(False, True)
+    pygame.K_a: KeyState(False, True),
+    pygame.K_e: KeyState(False, True)
 }
 
 # mainloop
@@ -82,6 +86,10 @@ while running:
         flags["lineClear"] = False
         music_tracks.playSound(Line_cleared, 0)
 
+    if flags["hardDrop"]:
+        flags["hardDrop"] = False
+        music_tracks.playSound(hard_drop, 0, 0.25)
+
     # input handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -101,12 +109,8 @@ while running:
                 menu.close()
                 music_tracks.stopSound(Menu_music)
                 music_tracks.playSound(Gameplay_music, -1, 0.2)
-                while event.type != pygame.MOUSEBUTTONDOWN:
-                    menu.displayInstructions(screen)
                 game.start()
-            if buttons["exit"]:
-                running=False
-                
+
     clock.tick(FPS)
     time_end = time.perf_counter()
     time_elapsed = time_end-time_start
