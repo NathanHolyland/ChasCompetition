@@ -14,11 +14,18 @@ def randomPiece():
         pos = [5.5, 1.5]
     return Tetronimo(options[i], pos)
 
+def selectPiece(type):
+    pos = [5, 2]
+    if type == "i" or type == "o":
+        pos = [5.5, 1.5]
+    return Tetronimo(type, pos)
+
 class GameWindow:
     def __init__(self, resolution, flags):
         self.active = False
         self.flags = flags
 
+        self.heldPiece = None
         self.activePiece = randomPiece()
         self.timer = 0
         self.scale_vec = [1/19*resolution[0],1/19*resolution[1]]
@@ -36,6 +43,20 @@ class GameWindow:
         self.score = score
         self.scoreboard.changeText((255, 0, 0), str(score))
 
+    def newPiece(self):
+        self.activePiece = randomPiece()
+        if not self.grid.validatePosition(self.activePiece, [0, 0]):
+            self.flags["gameOver"] = True
+
+    def holdPiece(self):
+        prev_held = self.heldPiece
+        self.heldPiece = selectPiece(self.activePiece.type)
+        self.heldPiece.position = [13.2, 6]
+        if prev_held:
+            self.activePiece = selectPiece(prev_held.type)
+        else:
+            self.newPiece()
+
     def update(self, dt):
         if not self.active:
             return
@@ -46,9 +67,7 @@ class GameWindow:
     
         if (self.activePiece.timer >= self.activePiece.timerLimit) or self.activePiece.timerLimit <= 0:
             self.grid.commitTetronimo(self.activePiece, [1,1])
-            self.activePiece = randomPiece()
-            if not self.grid.validatePosition(self.activePiece, [0, 0]):
-                self.flags["gameOver"] = True
+            self.newPiece()
 
         clears = self.grid.clearCheck()
         for line in clears:
@@ -74,7 +93,9 @@ class GameWindow:
             pygame.K_RIGHT: ["move", [1, 0]],
             pygame.K_DOWN: ["move", [0, 1]],
             pygame.K_d: ["rotate", 1],
-            pygame.K_a: ["rotate", -1]
+            pygame.K_a: ["rotate", -1],
+            pygame.K_SPACE: ["drop"],
+            pygame.K_RETURN: ["hold"]
         }
 
         for key in keys:
@@ -83,6 +104,19 @@ class GameWindow:
                     self.activePiece.move(bound_actions[key][1], self.grid),
                 elif bound_actions[key][0] == "rotate":
                     self.activePiece.rotate(bound_actions[key][1], self.grid)
+                elif bound_actions[key][0] == "hold":
+                    self.holdPiece()
+                elif bound_actions[key][0] == "drop":
+                    valid_move = [0,0]
+                    for dy in range(20):
+                        if self.grid.validateMove(self.activePiece,[0, dy]):
+                            valid_move = [0, dy]
+                        else:
+                            break
+                    self.activePiece.move(valid_move, self.grid)
+                    self.grid.commitTetronimo(self.activePiece, [1, 1])
+                    self.flags["hardDrop"] = True
+                    self.newPiece()
                 if keys[key].should_reset:
                     keys[key].state = False
     
@@ -92,4 +126,7 @@ class GameWindow:
         screen.fill(self.bgcolor)
         self.grid.render(screen, self.scale_vec)
         self.activePiece.render(screen, self.scale_vec)
+        pygame.draw.rect(screen, (0, 0, 0), [300, 100, 120, 120], 2)
+        if self.heldPiece:
+            self.heldPiece.render(screen, self.scale_vec)
         self.scoreboard.render(screen)
