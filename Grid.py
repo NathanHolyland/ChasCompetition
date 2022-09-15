@@ -31,6 +31,7 @@ class Grid:
         for i in range(self.resolution[0]):
             empty_row.append(self.default_color)
 
+        #grid is generated in columns, so must be put into rows before it can be searched
         rotatedGrid = invertList(self.grid)
 
         #clears row, and pushes every row down and empties top row
@@ -44,12 +45,7 @@ class Grid:
     def clearCheck(self):
         clears = []
 
-        rotatedGrid = []
-        for i in range(len(self.grid[0])):
-            column = []
-            for j in self.grid:
-                column.append(j[i])
-            rotatedGrid.append(column)
+        rotatedGrid = invertList(self.grid)
             
         #loop through each row, if the row has any blank tiles then it isnt cleared (append if it is cleared)
         for i in range(len(rotatedGrid)):
